@@ -19,6 +19,11 @@ class StockOptions(object):
         """Calculate the age of the stock options in months."""
         
         years = date.year - self.date.year
+        
+        # the max age is 4 years (48 months)
+        if years >= 4:
+            return 48
+        
         months = date.month - self.date.month
         
         return years * 12 + months
@@ -50,6 +55,10 @@ def test():
     options1 = StockOptions(960, 1.0, datetime.date(2008, 10, 21))
     
     assert options1.age(datetime.date(2009, 10, 21)) == 12
+    assert options1.age(datetime.date(2010, 10, 21)) == 24
+    assert options1.age(datetime.date(2011, 10, 21)) == 36
+    assert options1.age(datetime.date(2012, 10, 21)) == 48
+    assert options1.age(datetime.date(2013, 10, 21)) == 48
     
     assert options1.num_vested(datetime.date(2009, 10, 21)) == 240
     assert options1.num_vested(datetime.date(2009, 11, 21)) == 260
