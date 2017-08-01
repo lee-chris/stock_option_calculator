@@ -33,13 +33,15 @@ class StockOptions(object):
         """Return the number of vested stock options."""
         
         age = self.age(date)
+        
         vested = 0
         
         if age >= 12:
+            
             vested = self.num_assigned * 0.25
             age -= 12
         
-        vested += age * (self.num_assigned / 4 / 12)
+            vested += age * (self.num_assigned / 4 / 12)
         
         return vested
     
@@ -60,6 +62,8 @@ def test():
     assert options1.age(datetime.date(2012, 10, 21)) == 48
     assert options1.age(datetime.date(2013, 10, 21)) == 48
     
+    assert options1.num_vested(datetime.date(2000, 10, 21)) == 0
+    assert options1.num_vested(datetime.date(2008, 11, 21)) == 0
     assert options1.num_vested(datetime.date(2009, 10, 21)) == 240
     assert options1.num_vested(datetime.date(2009, 11, 21)) == 260
     
