@@ -25,6 +25,39 @@ def buy_price(stock_options: list, date: datetime.date = datetime.date.today()) 
     return price
 
 
+def summary(stock_options: list):
+    
+    print("Count\tPrice\tStart Date\tAge\tBuy Price\tNum Vested")
+    
+    for o in stock_options:
+        print("{0}\t{1}\t{2}\t{3}\t{4:.2f}\t\t{5:.2f}".format(
+            o.num_assigned,
+            o.excise_price,
+            o.date,
+            o.age(),
+            o.buy_price(),
+            o.num_vested()))
+    
+    print("\nTotal number vested: {0:.2f}".format(num_vested(stock_options)))
+
+
+def per_month(stock_options: list):
+    
+    print("Date\tVested\tOutstanding")
+    
+    num_outstanding = 0
+    for o in stock_options:
+        num_outstanding += o.num_assigned
+    
+    for year in range(2008, 2019):
+        for month in range(1, 13):
+            
+            vested = num_vested(stock_options, datetime.date(year, month, 1))
+            print("{0}/{1}\t{2:.2f}\t\t{3:.2f}".format(
+                month, year,
+                vested, num_outstanding - vested))
+
+
 def test_num_vested():
     
     count = num_vested([StockOptions(400, 1.0, datetime.date(2014, 10, 1))], datetime.date(2015, 10, 1)) 
