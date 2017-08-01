@@ -26,6 +26,9 @@ class StockOptions(object):
         
         months = date.month - self.date.month
         
+        if date.day < self.date.day:
+            months -= 1
+        
         return years * 12 + months
     
     
@@ -57,6 +60,7 @@ def test():
     options1 = StockOptions(960, 1.0, datetime.date(2008, 10, 21))
     
     assert options1.age(datetime.date(2009, 10, 21)) == 12
+    assert options1.age(datetime.date(2009, 11, 1)) == 12
     assert options1.age(datetime.date(2010, 10, 21)) == 24
     assert options1.age(datetime.date(2011, 10, 21)) == 36
     assert options1.age(datetime.date(2012, 10, 21)) == 48
