@@ -20,6 +20,9 @@ class StockOptions(object):
         
         years = date.year - self.date.year
         
+        if date.month < self.date.month:
+            years -= 1
+        
         # the max age is 4 years (48 months)
         if years >= 4:
             return 48
